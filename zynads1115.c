@@ -39,7 +39,11 @@ struct wiringPiNodeStruct * init_ads1115(uint16_t base_pin, uint16_t i2c_address
 	ads1115Setup(base_pin, i2c_address);
 	digitalWrite(base_pin, gain);
 	digitalWrite(base_pin + 1, rate);
+#ifdef HAVE_WIRINGPI_LIB
 	return wiringPiFindNode(base_pin);
+#else
+	return NULL;
+#endif  // HAVE_WIRINGPI_LIB
 }
 
 void set_ads1115_gain(uint16_t base_pin, uint8_t gain) {

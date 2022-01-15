@@ -69,8 +69,10 @@ void (*zynswitch_rbpi_ISRs[]);
 void zyncoder_rbpi_ISR(uint8_t i);
 void (*zyncoder_rbpi_ISRs[]);
 
+#ifndef MCP23008_ENCODERS
 void zynswitch_mcp23017_update(uint8_t i);
 void zyncoder_mcp23017_update(uint8_t i);
+#endif  // MCP23008_ENCODERS
 
 //-----------------------------------------------------------------------------
 // Helper functions
@@ -166,7 +168,9 @@ int setup_zynswitch(uint8_t i, uint8_t pin) {
 		} 
 		// MCP23017 pin
 		else if (pin>=100) {
+#ifndef MCP23008_ENCODERS
 			zynswitch_mcp23017_update(i);
+#endif  // MCP23008_ENCODERS
 		}
 	}
 
@@ -434,7 +438,9 @@ int setup_zyncoder(uint8_t i, uint8_t pin_a, uint8_t pin_b) {
 			} 
 			// MCP23017 pins
 			else if (zcdr->pin_a>=100 && zcdr->pin_b>=100) {
+#ifndef MCP23008_ENCODERS
 				zyncoder_mcp23017_update(i);
+#endif  // MCP23008_ENCODERS
 			}
 			// Can't configure mixed pins!
 			else {
@@ -601,7 +607,7 @@ void update_expanded_zynswitches() {
 		//printf("POLLING SWITCH %d (%d) => %d\n",i,zsw->pin,status);
 		if (status==zsw->status) continue;
 		zsw->status=status;
-		send_zynswitch_midi(zynswitch, status);
+		send_zynswitch_midi(zsw, status);
 		//printf("POLLING SWITCH %d => STATUS=%d (%lu)\n",i,zsw->status,tsus);
 		if (zsw->status==1) {
 			if (zsw->tsus>0) {

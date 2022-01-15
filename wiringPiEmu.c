@@ -87,6 +87,10 @@ int mcp23008Setup(int pin_offset, int addr_base) {
 	return 1;
 }
 
+int ads1115Setup(int base_pin, int i2c_address) {
+	return 1;
+}
+
 void pinMode(int pin, int mode) {
 	if (pin>=GPIO_MAX) {
 		printf("ERROR WiringPiEmu: pin number (%d) is out of range\n",pin);
@@ -120,6 +124,16 @@ int digitalRead(int pin) {
 		return 0;
 	}
 	return gpio[pin].status;
+}
+
+int analogRead(int pin) {
+	if (pin>=GPIO_MAX) {
+		printf("ERROR WiringPiEmu: pin number (%d) is out of range\n",pin);
+		return 0;
+	}
+	printf("WARNING WiringPiEmu: analog read not implemented pin number (%d)\n",
+		pin);
+	return 0;
 }
 
 int wiringPiISR(int pin, int mode, void (*function)(void)) {

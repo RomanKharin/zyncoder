@@ -29,6 +29,9 @@
 
 #include "zynpot.h"
 #include "zyncoder.h"
+#ifndef HAVE_WIRINGPI_LIB
+extern int  mcp23008Setup       (int, int) ;
+#endif
 
 #ifdef ZYNAPTIK_CONFIG
 #include "zynaptik.h"
@@ -157,7 +160,6 @@ void init_zynswitches() {
 //-----------------------------------------------------------------------------
 // 4 x Zynpòts (Analog Encoder RV112)
 //-----------------------------------------------------------------------------
-
 void init_zynpots() {
 	reset_zynpots();
 	reset_zyncoders();
